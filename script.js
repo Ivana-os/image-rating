@@ -91,7 +91,7 @@ function submitRatings() {
       } else {
         // Kraj: puni progress bar, sakrij gumb, prikaži poruku
         document.getElementById('progress-bar').style.width = '100%';
-        document.getElementById('counter').textContent = '✅ All images rated!';
+        document.getElementById('counter').textContent = ' All images rated!';
         document.getElementById('image-container').innerHTML = '';
         document.querySelector('button').style.display = 'none';
       }
