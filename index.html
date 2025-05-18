@@ -6,14 +6,31 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Rate 4 Images (5th is reference)</h1>
-  <div id="image-container" class="image-row"></div>
-  <button onclick="submitRatings()">Next</button>
+  <h1>Rate 8 Images (1st is reference)</h1>
+  <!--<div id="image-container" class="image-row"></div>-->
   
+  
+
+<div id="image-container">
+  <div class="image-row">
+    <!-- 5 image-blocks for row 1 -->
+  </div>
+  <div class="image-row">
+    <!-- 4 image-blocks for row 2 -->
+  </div>
+</div>
+
+
+
+<button onclick="submitRatings()">Next</button>
+
   <div id="progress-container">
     <div id="progress-bar"></div>
   </div>
   <p id="counter"></p>
+
+ <button id="finishBtn" onclick="finishRating()" style="display:none;">Finish</button>
+
   <script src="script.js"></script>
 </body>
 </html>
