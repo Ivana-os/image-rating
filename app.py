@@ -52,6 +52,8 @@ def rate():
     ))
     conn.commit()
     return jsonify(message="Ocjena spremljena u bazu")
+from flask import jsonify
+
 @app.route('/results')
 def results():
     cursor.execute("SELECT * FROM ratings ORDER BY id DESC")
