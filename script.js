@@ -3,7 +3,7 @@ const maxIndex = 56;
 
 // Folder configuration
 const firstRowFolders = [5, 1, 2, 3, 4];  // First image is reference (folder5)
-const secondRowFolders = [6, 7, 8, 9];    // All images need ratings
+const secondRowFolders = [6, 7, 8, 9, 10];    // All images need ratings
 
 
 // ======== NEW PROGRESS SAVING FUNCTIONS ========

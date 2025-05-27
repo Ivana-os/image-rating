@@ -1,7 +1,7 @@
 let currentIndex = 1;
 const maxIndex = 56;
-const firstRowFolders = [5, 1, 2, 3, 4];
-const secondRowFolders = [6, 7, 8, 9, 10];
+const firstRowFolders = [5, 1, 2, 3];
+
 
 document.addEventListener('DOMContentLoaded', async () => {
   const { index, ratings } = loadProgress();
@@ -90,10 +90,9 @@ async function showImages(index) {
   container.innerHTML = '';
 
   const row1 = await createRow(firstRowFolders, index, true);
-  const row2 = await createRow(secondRowFolders, index, false);
-
+  
   container.appendChild(row1);
-  container.appendChild(row2);
+  
 
   updateProgress(index);
 }

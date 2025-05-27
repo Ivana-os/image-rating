@@ -21,7 +21,7 @@ $file = 'ratings.csv';
 
 // Ako datoteka ne postoji, upiši zaglavlje
 if (!file_exists($file)) {
-  $header = ['index', 'time', 'folder1', 'folder2', 'folder3', 'folder4', 'folder6', 'folder7', 'folder8', 'folder9'];
+  $header = ['index', 'time', 'folder1', 'folder2', 'folder3'];
   $fp = fopen($file, 'w');
   fputcsv($fp, $header);
   fclose($fp);
@@ -32,12 +32,7 @@ $row = [
     $time,
     $ratings['folder1'] ?? '',
     $ratings['folder2'] ?? '',
-    $ratings['folder3'] ?? '',
-    $ratings['folder4'] ?? '',
-    $ratings['folder6'] ?? '',
-    $ratings['folder7'] ?? '',
-    $ratings['folder8'] ?? '',
-    $ratings['folder9'] ?? ''
+    $ratings['folder3'] ?? ''
 ];
 
 $csvFile = __DIR__ . '/ratings.csv';
