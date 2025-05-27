@@ -52,6 +52,23 @@ def rate():
     ))
     conn.commit()
     return jsonify(message="Ocjena spremljena u bazu")
+@app.route('/results')
+def results():
+    cursor.execute("SELECT * FROM ratings ORDER BY id DESC")
+    rows = cursor.fetchall()
+
+    # Vraćamo rezultate kao JSON
+    return jsonify([
+        {
+            'id': row[0],
+            'index': row[1],
+            'time': row[2].strftime("%Y-%m-%d %H:%M:%S"),
+            'folder1': row[3],
+            'folder2': row[4],
+            'folder3': row[5]
+        }
+        for row in rows
+    ])
 
 if __name__ == '__main__':
     app.run(debug=True)
