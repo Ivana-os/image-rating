@@ -1,11 +1,13 @@
-<?PHP
+<?php
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Read JSON input
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['index']) || !isset($data['ratings'])) {
+// Check that required data exists
+if (!isset($data['index']) || !isset($data['ratings']) || !is_array($data['ratings'])) {
     http_response_code(400);
     echo "Invalid data";
     exit;
@@ -15,36 +17,25 @@ $index = $data['index'];
 $ratings = $data['ratings'];
 $time = date('Y-m-d H:i:s');
 
-// Putanja do CSV datoteke
-$file = 'ratings.csv';
-
-
-// Ako datoteka ne postoji, upiši zaglavlje
-if (!file_exists($file)) {
-  $header = ['index', 'time', 'folder1', 'folder2', 'folder3'];
-  $fp = fopen($file, 'w');
-  fputcsv($fp, $header);
-  fclose($fp);
-}
-// Build row
-$row = [
-    $index,
-    $time,
-    $ratings['folder1'] ?? '',
-    $ratings['folder2'] ?? '',
-    $ratings['folder3'] ?? ''
-];
-
+// CSV file path
 $csvFile = __DIR__ . '/ratings.csv';
-$file = fopen($csvFile, 'a');
-if (!$file) {
-    http_response_code(500);
-    echo "Error opening CSV file!";
-    exit;
+
+// Prepare CSV header based on keys in "ratings"
+$headers = array_merge(['index', 'time'], array_keys($ratings));
+
+// Prepare CSV row
+$folder = array_merge([$index, $time], array_values($ratings));
+
+// If file doesn't exist, write the header first
+if (!file_exists($csvFile)) {
+    $fp = fopen($csvFile, 'w');
+    fputcsv($fp, $headers);
+    fclose($fp);
 }
-fputcsv($file, $row);
-fclose($file);
+
+// Append the new rating row
+$fp = fopen($csvFile, 'a');
+fputcsv($fp, $folder);
+fclose($fp);
 
 echo 'Rating saved to CSV';
-exit;
-?>

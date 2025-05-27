@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: rating-app
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: DATABASE_URL
+        sync: false  # Dodaješ je ručno u Render dashboardu

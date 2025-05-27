@@ -164,7 +164,7 @@ async function submitRatings() {
   if (!allRated) return alert('Please rate all images before continuing.');
 
   try {
-    const response = await fetch('rate.php', {
+    const response = await fetch('rate_local.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ index: currentIndex, ratings })
