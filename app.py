@@ -5,7 +5,7 @@ from datetime import datetime
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
-# PostgreSQL konekcija
+# Konekcija na PostgreSQL iz okoline (Render ili lokalno)
 conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
 cursor = conn.cursor()
 
@@ -22,17 +22,34 @@ CREATE TABLE IF NOT EXISTS ratings (
 """)
 conn.commit()
 
-# Glavna stranica
+# Glavna stranica (index.html)
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
 
-# Endpoint za statične datoteke (script.js, style.css)
-@app.route('/<path:path>')
-def static_file(path):
-    return send_from_directory('.', path)
+# Stranica za prikaz rezultata (results.html)
+@app.route('/results-view')
+def results_view():
+    return send_from_directory('.', 'results.html')
 
-# API za spremanje ocjena
+# Endpoint za dohvat rezultata kao JSON
+@app.route('/results')
+def results():
+    cursor.execute("SELECT * FROM ratings ORDER BY id DESC")
+    rows = cursor.fetchall()
+    return jsonify([
+        {
+            'id': row[0],
+            'index': row[1],
+            'time': row[2].strftime("%Y-%m-%d %H:%M:%S"),
+            'folder1': row[3],
+            'folder2': row[4],
+            'folder3': row[5]
+        }
+        for row in rows
+    ])
+
+# Spremanje ocjena
 @app.route('/rate', methods=['POST'])
 def rate():
     data = request.get_json()
@@ -52,25 +69,6 @@ def rate():
     ))
     conn.commit()
     return jsonify(message="Ocjena spremljena u bazu")
-from flask import jsonify
-
-@app.route('/results')
-def results():
-    cursor.execute("SELECT * FROM ratings ORDER BY id DESC")
-    rows = cursor.fetchall()
-
-    return jsonify([
-        {
-            'id': row[0],
-            'index': row[1],
-            'time': row[2].strftime("%Y-%m-%d %H:%M:%S"),
-            'folder1': row[3],
-            'folder2': row[4],
-            'folder3': row[5]
-        }
-        for row in rows
-    ])
-
 
 if __name__ == '__main__':
     app.run(debug=True)
